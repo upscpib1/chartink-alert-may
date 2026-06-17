@@ -134,10 +134,8 @@ func main() {
 
 	http.HandleFunc("/chartink", handleWebhook)
 	http.HandleFunc("/telegram", handleTelegram)
-	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Content-Type", "text/html")
-		fmt.Fprint(w, "<h3>NotifyU.me — Ultra-low footprint Go router active.</h3>")
-	})
+	fileServer := http.FileServer(http.Dir("src/main/resources/static"))
+http.Handle("/", fileServer)
 
 	port := os.Getenv("PORT")
 	if port == "" {
